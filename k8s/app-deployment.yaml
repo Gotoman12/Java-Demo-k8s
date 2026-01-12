@@ -17,14 +17,6 @@ spec:
           image: arjunckm/java-mysql-demo:1.0.0
           ports:
             - containerPort: 8080
-          livenessProbe:
-            httpGet:
-              path: /actuator/health
-              port: 8080
-          readinessProbe:
-            httpGet:
-              path: /actuator/health
-              port: 8080
           env:
             - name: DB_HOST
               value: "mysql"
