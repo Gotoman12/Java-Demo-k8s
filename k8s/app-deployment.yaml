@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: demo-app
-          image: YOUR_DOCKERHUB_USERNAME/java-mysql-demo:1.0.0
+          image: arjunckm/java-mysql-demo:1.0.0
           ports:
             - containerPort: 8080
           env:
