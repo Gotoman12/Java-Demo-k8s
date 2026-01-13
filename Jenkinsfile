@@ -18,6 +18,11 @@ pipeline{
                 git url:"https://github.com/Gotoman12/Java-Demo-k8s.git", branch: "main"
             }   
         }
+        stage("compile"){
+            steps{
+                    sh 'mvn compile'
+            }
+        }
         stage("Package"){
             steps{
                     sh 'mvn clean package'
