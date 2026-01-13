@@ -77,9 +77,9 @@ pipeline{
         }
         stage("Verify the Deployment"){
             steps{
-                withKubeConfig(caCertificate: '', clusterName: "${CLUSTER_NAME}" , contextName: '', credentialsId: 'kube', namespace: '${NAMESPACE}': false, serverUrl: ''){
+                withKubeConfig(caCertificate: '', clusterName: "${CLUSTER_NAME}" , contextName: '', credentialsId: 'kube', namespace: '${NAMESPACE}',restrictKubeConfigAccess: false, serverUrl: 'https://AD29A1EDDAA2894AE3B00FA20FDD8EDB.gr7.us-east-1.eks.amazonaws.com'){
                     sh 'kubectl get pods -n ${NAMESPACE}'
-                    sh ' kubectl get  svc -n ${NAMESPACE}'
+                    sh 'kubectl get  svc -n ${NAMESPACE}'
                 }
             }
         }
