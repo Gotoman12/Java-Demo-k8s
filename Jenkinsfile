@@ -5,7 +5,7 @@ pipeline{
         maven 'maven'
     }
     environment{
-        IAMGE_NAME = "arjunckm/java-mysql-demo:${BUILD_NUMBER}"
+        IMAGE_NAME = "arjunckm/java-mysql-demo:${BUILD_NUMBER}"
         REGION_NAME = "us-east-1"
         NAMESPACE = "javamysqldemo"
         CLUSTER_NAME = "javamysqldemo-cluster"
@@ -30,7 +30,7 @@ pipeline{
         } */
         stage("Docker-Build"){
             steps{
-                    sh 'docker build -t ${IMAGE} .'
+                    sh 'docker build -t ${IMAGE_NAME} .'
             }
         }
         stage('docker-cred'){
