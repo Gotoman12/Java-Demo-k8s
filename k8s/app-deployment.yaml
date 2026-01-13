@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   name: demo-app
 spec:
-  replicas: 1
+  replicas: 6
   selector:
     matchLabels:
       app: demo-app
@@ -49,3 +49,10 @@ spec:
               port: 8080
             initialDelaySeconds: 30
             periodSeconds: 10
+          resources:
+            requests:
+              memory: "512Mi"
+              cpu: "250m"
+            limits:
+              memory: "1Gi"
+              cpu: "500m"
