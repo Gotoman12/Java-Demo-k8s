@@ -21,7 +21,7 @@ pipeline{
                         message: "Select the branch to build",
                         parameters: [string(name: 'BRANCH', defaultValue: 'main', description: 'Enter the branch name to build')]
                     )
-                    env.BRANCH_NAME = branchInput
+                    env.BRANCH_NAME = branchInput.BRANCH
                     echo "✅ Selected Branch: ${env.BRANCH_NAME}"
                 }
             }
