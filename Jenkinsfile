@@ -1,6 +1,9 @@
 pipeline{
     agent any
-    
+    tools{
+        jdk 'java-17'
+        maven 'maven'
+    }
     environment{
         IAMGE_NAME = "arjunckm/java-mysql-demo:${BUILD_NUMBER}"
         REGION_NAME = "us-east-1"
