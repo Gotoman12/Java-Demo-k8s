@@ -23,11 +23,11 @@ pipeline{
                     sh 'mvn compile'
             }
         }
-        stage("Package"){
+        /* stage("Package"){
             steps{
                     sh 'mvn clean package'
             }
-        }
+        } */
         stage("Docker-Build"){
             steps{
                     sh 'docker build -t ${IMAGE} .'
