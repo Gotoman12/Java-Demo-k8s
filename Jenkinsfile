@@ -22,7 +22,63 @@ pipeline{
                     echo "✅ Selected Branch: ${env.BRANCH_NAME}"
                 }
             }
-
+        }
+        stage('Clone Repository') {
+            steps {
+                git branch: "${env.BRANCH_NAME}", url: 'https://github.com/Gotoman12/Java-Demo-k8s.git'
+            }
+        }
+        stage("Package"){
+            steps{
+                    sh 'mvn clean package'
+            }
+        }
+        stage("Docker-Build"){
+            steps{
+                    sh 'docker build -t ${IMAGE} .'
+            }
+        }
+        stage('docker-cred'){
+            steps{
+                script {
+                    withCredentials([usernamePassword(credentialsId: 'docker_hubcred', usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD')]) {
+                        // Login to Docker Hub
+                        sh "echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin"
+                }
+            }
+         }
+      }
+      stage("Docker-push"){
+        steps{
+            sh 'docker push ${IMAGE_NAME}'
+        }
+      }
+      stage("KUBE_CONFIG"){
+        steps{
+            sh "aws eks update-kubeconfig --region ${REGION_NAME} --name ${CLUSTER_NAME}"
+        }
+      }
+      stage("Deploy To Kubernetes"){
+        steps{
+             withKubeConfig(caCertificate: '', clusterName: "${CLUSTER_NAME}" , contextName: '', credentialsId: 'kube', namespace: '${NAMESPACE}': false, serverUrl: '') {
+                    sh '''
+                    kubectl apply -f k8s/deployment.yml -n ${NAMESPACE}
+                    kubectl apply -f k8s/deployment.yml -n ${NAMESPACE}
+                    kubectl apply -f k8s/mysql-secret.yaml -n ${NAMESPACE}
+                    kubectl apply -f k8s/mysql-configmap.yaml -n ${NAMESPACE}
+                    kubectl apply -f k8s/mysql-pvc.yaml -n ${NAMESPACE}
+                    kubectl apply -f k8s/mysql-statefulset.yaml -n ${NAMESPACE}
+                    '''
+                }
+           }
+        }
+        stage("Verify the Deployment"){
+            steps{
+                withKubeConfig(caCertificate: '', clusterName: "${CLUSTER_NAME}" , contextName: '', credentialsId: 'kube', namespace: '${NAMESPACE}': false, serverUrl: ''){
+                    sh 'kubectl get pods -n ${NAMESPACE}'
+                    sh ' kubectl get  svc -n ${NAMESPACE}'
+                }
+            }
         }
     }
 }
