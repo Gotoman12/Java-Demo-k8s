@@ -17,8 +17,8 @@ pipeline{
             steps{
                 script{
                     def branchInput = input(
-                        id = "branchSelect"
-                        message: "Select the branch to build"
+                        id = "branchSelect",
+                        message: "Select the branch to build",
                         parameters: [string(name: 'BRANCH', defaultValue: 'main', description: 'Enter the branch name to build')]
                     )
                     env.BRANCH_NAME = branchInput
