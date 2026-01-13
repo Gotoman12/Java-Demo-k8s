@@ -15,21 +15,8 @@ pipeline{
     stages{
         stage("Branch-Selection"){
             steps{
-                script{
-                    def branchInput = input(
-                        id = "branchSelect",
-                        message: "Select the branch to build",
-                        parameters: [string(name: 'BRANCH', defaultValue: 'main', description: 'Enter the branch name to build')]
-                    )
-                    env.BRANCH_NAME = branchInput.BRANCH
-                    echo "✅ Selected Branch: ${env.BRANCH_NAME}"
-                }
-            }
-        }
-        stage('Clone Repository') {
-            steps {
-                git branch: "${env.BRANCH_NAME}", url: 'https://github.com/Gotoman12/Java-Demo-k8s.git'
-            }
+                git url:"https://github.com/Gotoman12/Java-Demo-k8s.git", branch: "main"
+            }   
         }
         stage("Package"){
             steps{
