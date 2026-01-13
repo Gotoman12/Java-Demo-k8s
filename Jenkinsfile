@@ -8,7 +8,7 @@ pipeline{
         IAMGE_NAME = "arjunckm/java-mysql-demo:${BUILD_NUMBER}"
         REGION_NAME = "us-east-1"
         NAMESPACE = "javamysqldemo"
-        CLUSTER_NAME = "javamysqldemo"
+        CLUSTER_NAME = "javamysqldemo-cluster"
     }
 
     
