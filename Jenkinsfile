@@ -57,8 +57,9 @@ pipeline{
         steps{
              withKubeConfig(caCertificate: '', clusterName: "${CLUSTER_NAME}" , contextName: '', credentialsId: 'kube', namespace: "${NAMESPACE}",restrictKubeConfigAccess: false, serverUrl: 'https://AD29A1EDDAA2894AE3B00FA20FDD8EDB.gr7.us-east-1.eks.amazonaws.com') {
                     sh '''
+                    sed -i 's|replace|${IMAGE_NAME}|g' k8s/app-deployment.yaml
                     kubectl apply -f k8s/app-deployment.yaml -n ${NAMESPACE}
-                    kubectl apply -f k8s/app-service.yml -n ${NAMESPACE}
+                    kubectl apply -f k8s/app-service.yaml -n ${NAMESPACE}
                     kubectl apply -f k8s/mysql-secret.yaml -n ${NAMESPACE}
                     kubectl apply -f k8s/mysql-configmap.yaml -n ${NAMESPACE}
                     kubectl apply -f k8s/mysql-pvc.yaml -n ${NAMESPACE}

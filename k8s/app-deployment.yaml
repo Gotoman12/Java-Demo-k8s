@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: demo-app
-          image: arjunckm/java-mysql-demo:1.0.0
+          image: replace
           ports:
             - containerPort: 8080
           env:
